@@ -8,15 +8,12 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 if ($_SESSION['role'] == "student") {
-    //redirect to patient view and exit after
+    // Redirect to dashboard then exit
     header("Location: student/student-dash.php");
     exit();
-//if a doctor is logged in
 } else if ($_SESSION['role'] == "teacher") {
-    //redirect to doctor view and exit after
     header("Location: teacher/teacher-dash.php");
     exit();
-//if admin is logged in, redirect to admin dashboard
 } else if ($_SESSION['role'] == "admin") {
     header("Location: admin/admin-dash.php");
     exit();
