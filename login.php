@@ -2,6 +2,7 @@
 session_start();
 
 include "includes/db.php";
+include "includes/activity.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST["email"];
@@ -31,6 +32,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION["user_id"] = $row["student_id"];
             $_SESSION["role"] = "student";
 
+            logActivity($conn, $_SESSION["user_id"], $_SESSION["role"], "login");
+
             header("Location: redirect.php");
             exit();
         }
@@ -44,6 +47,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION["user_id"] = $row["teacher_id"];
             $_SESSION["role"] = "teacher";
 
+            logActivity($conn, $_SESSION["user_id"], $_SESSION["role"], "login");
+
             header("Location: redirect.php");
             exit();
         }
@@ -56,6 +61,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Storing admin id and role in session
             $_SESSION["user_id"] = $row["admin_id"];
             $_SESSION["role"] = "admin";
+
+            logActivity($conn, $_SESSION["user_id"], $_SESSION["role"], "login");
 
             header("Location: redirect.php");
             exit();
