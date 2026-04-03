@@ -3,6 +3,7 @@
 session_start();
 
 include "includes/db.php";
+include "includes/activity.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST["email"];
@@ -21,6 +22,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user = $conn->prepare("INSERT INTO STUDENT_USERS (student_id, email, password_hash) VALUES (?,?,?)");
     $user->bind_param("iss", $student_id, $email, $hash);
     if ($user->execute()) {
+        logActivity($conn, $student_id, "student", "register", "student registered", "student_users/student_info");
+
         header("Location: login.php");
         exit();
     }
