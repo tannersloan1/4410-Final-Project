@@ -1,3 +1,15 @@
+<?php
+session_start();
+
+include "../includes/db.php";
+include "../includes/activity.php";
+
+// Makes sure you must have logged in with appropiate role
+if ($_SESSION["role"] != "admin") {
+    die("Restricted access"); 
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
