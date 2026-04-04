@@ -27,7 +27,7 @@ else {
         <title>Admin Dashboard</title>
         <link rel="stylesheet" href="../lms.css?v=5">
     </head>
-    <body>
+    <body id="dash-body">
         <?php include "../includes/header.php"; ?>
 
         <?php if ($admin): ?>
@@ -38,25 +38,21 @@ else {
 
         <div class="dash-container">
             <div class="dash-grid">
-                <a href="student.php">
-                    <div class="card">
-                        <div class="card-content">
-                            <p>Student</p>
-                        </div>
+                <a href="student.php" class="card">
+                    <div class="card-content">
+                        <span>Student</span>
                     </div>
                 </a>
-                <a href="teacher.php">
-                    <div class="card">
-                        <div class="card-content">
-                            <p>Teacher</p>
-                        </div>
+
+                <a href="teacher.php" class="card">
+                    <div class="card-content">
+                        <span>Teacher</span>
                     </div>
                 </a>
-                <a href="analytics.php">
-                    <div class="card">
-                        <div class="card-content">
-                            <p>Analytics</p>
-                        </div>
+
+                <a href="analytics.php" class="card">
+                    <div class="card-content">
+                        <span>Analytics / Logs</span>
                     </div>
                 </a>
             </div>
