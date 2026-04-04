@@ -1,10 +1,17 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 /* Navbar Section */
+
 .nav {
     width: 100%;
     background: linear-gradient(90deg, #1e293b, #0f172a);
@@ -47,6 +54,8 @@
     transition: color 0.3s ease;
 }
 
+/* idk how but this is broken all the sudden, it used to work but now it doesn't
+   i tried to remove everything else i added but still doesn't work :/ */
 .links a::after {
     content: "";
     position: absolute;
@@ -75,4 +84,61 @@
         justify-content: center;
         gap: 12px;
     }
+}
+
+/* Dashboard Section */
+
+/* I want to make this centered relative to the navbar and grid, but havent yet */
+.dash-hello {
+    display: flex;
+    justify-content: center;
+}
+
+.dash-container {
+    max-width: 1400px;
+    margin: auto;
+    background: lime;
+    border-radius: 26px;
+}
+
+.dash-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(100px, 250px));
+    gap: 24px;
+    padding: 40px 40px;
+}
+
+.card {
+    background: #1e293b;
+    border-radius: 10px;
+    border: 1.5px solid #1e293b;
+    box-shadow: 0 2px 8px rgba(28, 23, 18, 0.07);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 16px 48px rgba(28, 23, 18, 0.18);
+}
+
+.card-content {
+    padding: 22px 22px 18px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.dash-grid a {
+    color: white;
+}
+
+.dash-grid a:link, .dash-grid a:visited {
+    text-decoration: none;
+    color: white;
 }
