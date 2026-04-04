@@ -1,28 +1,68 @@
+:root {
+    /* Backgrounds */
+    --bg-base:          #0f172a;
+    --bg-surface:       #1e293b;
+    --bg-elevated:      #334155;
+    --bg-elevated-hover:#475569;
+
+    /* Text */
+    --text-primary:     #f8fafc;
+    --text-muted:       #cbd5f5;
+    --font:               "Segoe UI", Roboto, sans-serif;
+
+    /* Accents */
+    --accent-primary:   #3b82f6;
+
+    /* Borders */
+    --border-subtle:    rgba(255, 255, 255, 0.05);
+    --border-default:   rgba(255, 255, 255, 0.08);
+    --border-hover:     rgba(255, 255, 255, 0.15);
+
+    /* Shadows */
+    --shadow-sm:    0 4px 6px -1px rgba(0, 0, 0, 0.30);
+    --shadow-md:    0 4px 12px rgba(0, 0, 0, 0.25);
+    --shadow-lg:    0 20px 25px -5px rgba(0, 0, 0, 0.40),
+                    0 10px 10px -5px rgba(0, 0, 0, 0.20);
+
+    /* Radii */
+    --radius-md:    14px;
+    --radius-lg:    20px;
+
+    /* Transitions */
+    --transition-base:   0.3s ease;
+    --transition-smooth: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* Layout */
+    --max-width-nav:     1200px;
+    --max-width-content: 1000px;
+}
+
 *, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    font-family: var(--font);
 }
 
 /* Navbar Section */
 
 .nav {
     width: 100%;
-    background: linear-gradient(90deg, #1e293b, #0f172a);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    background: linear-gradient(90deg, var(--bg-surface), var(--bg-base));
+    box-shadow: var(--shadow-md);
     position: sticky;
     top: 0;
     z-index: 1000;
 }
 
 .nav-inner {
-    max-width: 1200px;
+    max-width: var(--max-width-nav);
     margin: 0 auto;
     padding: 0 24px;
     height: 70px;
@@ -34,7 +74,7 @@ body {
 .header {
     font-size: 1.6rem;
     font-weight: 600;
-    color: #f8fafc;
+    color: var(--text-primary);
     letter-spacing: 0.5px;
 }
 
@@ -47,15 +87,13 @@ body {
 .links a {
     position: relative;
     text-decoration: none;
-    color: #cbd5f5;
+    color: var(--text-muted);
     font-size: 0.95rem;
     font-weight: 500;
     padding: 6px 4px;
-    transition: color 0.3s ease;
+    transition: color var(--transition-base);
 }
 
-/* idk how but this is broken all the sudden, it used to work but now it doesn't
-   i tried to remove everything else i added but still doesn't work :/ */
 .links a::after {
     content: "";
     position: absolute;
@@ -63,12 +101,16 @@ body {
     bottom: -2px;
     width: 0%;
     height: 2px;
-    background-color: #38bdf8;
-    transition: width 0.3s ease;
+    background-color: var(--accent-primary);
+    transition: width var(--transition-base);
+}
+
+.links a:hover::after {
+    width: 100%;
 }
 
 .links a:hover {
-    color: #ffffff;
+    color: var(--text-primary);
 }
 
 @media (max-width: 770px) {
@@ -88,57 +130,95 @@ body {
 
 /* Dashboard Section */
 
-/* I want to make this centered relative to the navbar and grid, but havent yet */
+#dash-body {
+    background-color: var(--bg-base);
+    color: var(--text-primary);
+}
+
 .dash-hello {
-    display: flex;
-    justify-content: center;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 600;
+    margin-top: 80px;
+    margin-bottom: 30px;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
 }
 
 .dash-container {
-    max-width: 1400px;
-    margin: auto;
-    background: lime;
-    border-radius: 26px;
+    max-width: var(--max-width-content);
+    margin: 160px auto;
+    background: var(--bg-surface);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-subtle);
 }
 
 .dash-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(100px, 250px));
     gap: 24px;
-    padding: 40px 40px;
+    padding: 30px;
+    justify-items: center;
 }
 
 .card {
-    background: #1e293b;
-    border-radius: 10px;
-    border: 1.5px solid #1e293b;
-    box-shadow: 0 2px 8px rgba(28, 23, 18, 0.07);
+    background: var(--bg-elevated);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-default);
+    box-shadow: var(--shadow-sm);
     display: flex;
     flex-direction: column;
+    width: 100%;
+    max-width: 260px;
+    text-decoration: none;
+    color: var(--text-primary);
+    transition: all var(--transition-smooth);
+    position: relative;
     overflow: hidden;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: var(--accent-primary);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--transition-base);
 }
 
 .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 16px 48px rgba(28, 23, 18, 0.18);
+    transform: translateY(-6px);
+    background: var(--bg-elevated-hover);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--border-hover);
+}
+
+.card:hover::after {
+    transform: scaleX(1);
+}
+
+.card:hover .card-icon {
+    color: var(--accent-primary);
+    transform: scale(1.1);
 }
 
 .card-content {
-    padding: 22px 22px 18px;
+    padding: 32px 24px;
     display: flex;
     flex-direction: column;
-    flex: 1;
-    gap: 10px;
+    gap: 16px;
     justify-content: center;
     align-items: center;
 }
 
-.dash-grid a {
-    color: white;
-}
-
-.dash-grid a:link, .dash-grid a:visited {
-    text-decoration: none;
-    color: white;
+.card-content span {
+    font-size: 1.1rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
 }
