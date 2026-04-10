@@ -20,5 +20,10 @@ if ($_SESSION["role"] != "teacher") {
     </head>
     <body>
         <?php include "../includes/header.php"; ?>
+
+        <!--temp-->
+        <a href="quiz.php">
+            <button>quiz</button>
+        </a>
     </body>
 </html>
