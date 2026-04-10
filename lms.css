@@ -48,6 +48,8 @@ body {
     flex-direction: column;
     min-height: 100vh;
     font-family: var(--font);
+    background-color: var(--bg-base);
+    color: var(--text-primary);
 }
 
 /* Navbar Section */
@@ -129,11 +131,6 @@ body {
 }
 
 /* Dashboard Section */
-
-#dash-body {
-    background-color: var(--bg-base);
-    color: var(--text-primary);
-}
 
 .dash-hello {
     text-align: center;
@@ -221,4 +218,36 @@ body {
     font-size: 1.1rem;
     font-weight: 500;
     letter-spacing: 0.01em;
+}
+
+/* Teacher Section */
+
+.teacher-register {
+    max-width: var(--max-width-content);
+    margin: 0 auto;
+    background: var(--bg-surface);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-subtle);
+}
+
+.teacher-lookup {
+    max-width: var(--max-width-content);
+    margin: 0 auto;
+    background: var(--bg-surface);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-subtle);
+}
+
+.create-class {
+    max-width: var(--max-width-content);
+    margin: 0 auto;
+    background: var(--bg-surface);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-subtle);
 }
