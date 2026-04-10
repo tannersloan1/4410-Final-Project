@@ -6,12 +6,14 @@ USE lms;
 -- Info and Users section
 CREATE TABLE STUDENT_INFO (
 	student_id INT AUTO_INCREMENT PRIMARY KEY,
-    email VARCHAR(100) UNIQUE NOT NULL -- Used for login so can't be null
+    email VARCHAR(100) UNIQUE NOT NULL, -- Used for login so can't be null
+    full_name VARCHAR(100)
 );
 
 CREATE TABLE TEACHER_INFO (
 	teacher_id INT AUTO_INCREMENT PRIMARY KEY,
-    email VARCHAR(100) UNIQUE NOT NULL
+    email VARCHAR(100) UNIQUE NOT NULL,
+    full_name VARCHAR(100)
 );
 
 CREATE TABLE ADMIN_INFO (
@@ -64,4 +66,31 @@ CREATE TABLE LOGS (
     table_affected VARCHAR(255),
     ip_address VARCHAR(255),
 	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+CREATE TABLE CLASSES (
+	class_id INT AUTO_INCREMENT PRIMARY KEY,
+    teacher_id INT,
+    student_id INT,
+    class_name VARCHAR(255),
+    FOREIGN KEY (teacher_id) REFERENCES TEACHER_INFO(teacher_id),
+    FOREIGN KEY (student_id) REFERENCES STUDENT_INFO(student_id) ON DELETE CASCADE
+);
+
+CREATE TABLE QUIZZES (
+	quiz_id INT AUTO_INCREMENT PRIMARY KEY,
+    teacher_id INT,
+    class_id INT,
+    FOREIGN KEY (teacher_id) REFERENCES TEACHER_INFO(teacher_id),
+    FOREIGN KEY (class_id) REFERENCES CLASSES(class_id)
+);
+
+CREATE TABLE QUESTIONS (
+	question_id INT AUTO_INCREMENT PRIMARY KEY,
+    quiz_id INT NOT NULL,
+    question_text TEXT NOT NULL,
+    question_type ENUM("multiple_choice", "fill_in_the_blank", "free_response") NOT NULL,
+    answer TEXT NOT NULL,
+    auto_graded BOOLEAN DEFAULT TRUE,
+    FOREIGN KEY (quiz_id) REFERENCES QUIZZES(quiz_id) ON DELETE CASCADE
 );
