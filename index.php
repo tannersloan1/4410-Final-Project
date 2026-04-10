@@ -1,8 +1,9 @@
 <?php
-include "./includes/db.php";
-
 // Start session
 session_start();
+
+include "./includes/db.php";
+
 ?>
 
 <!DOCTYPE html>
