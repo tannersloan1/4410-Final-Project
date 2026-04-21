@@ -71,10 +71,17 @@ CREATE TABLE LOGS (
 CREATE TABLE CLASSES (
 	class_id INT AUTO_INCREMENT PRIMARY KEY,
     teacher_id INT,
-    student_id INT,
     class_name VARCHAR(255),
-    FOREIGN KEY (teacher_id) REFERENCES TEACHER_INFO(teacher_id),
-    FOREIGN KEY (student_id) REFERENCES STUDENT_INFO(student_id) ON DELETE CASCADE
+    FOREIGN KEY (teacher_id) REFERENCES TEACHER_INFO(teacher_id)
+);
+
+CREATE TABLE CLASS_ENROLLMENTS (
+	enrollment_id INT AUTO_INCREMENT PRIMARY KEY,
+    class_id INT,
+    student_id INT,
+    FOREIGN KEY (class_id) REFERENCES CLASSES(class_id) ON DELETE CASCADE,
+    FOREIGN KEY (student_id) REFERENCES STUDENT_INFO(student_id) ON DELETE CASCADE,
+    UNIQUE (class_id, student_id)
 );
 
 CREATE TABLE QUIZZES (
