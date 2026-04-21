@@ -9,6 +9,10 @@ if ($_SESSION["role"] != "admin") {
     die("Restricted access"); 
 }
 
+$sql = $conn->prepare("SELECT full_name, teacher_id FROM TEACHER_INFO");
+$sql->execute();
+$result = $sql->get_result();
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["teacher-register"])) {
         $email = $_POST["register-email"];
@@ -27,6 +31,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $user->bind_param("iss", $teacher_id, $email, $password_hash);
         if ($user->execute()) {
             logActivity($conn, $_SESSION["user_id"], $_SESSION["role"], "register", "admin registered teacher " . $teacher_id, "teacher_users/teacher_info");
+
+            $_SESSION["tr-success"] = "Successfully registered teacher with email: " . $email;
+
+            header("Location: " . $_SERVER["PHP_SELF"]);
+            exit();
+        }
+        else {
+            // Add error message here
+        }
+    }
+
+    else if (isset($_POST["create-class"])) {
+        $class = $_POST["class-name"];
+        $teacher = $_POST["teacher"];
+
+        $sql = $conn->prepare("INSERT INTO CLASSES (teacher_id, class_name) VALUES (?,?)");
+        $sql->bind_param("is", $teacher, $class);
+
+        if ($sql->execute()) {
+            logActivity($conn, $_SESSION["user_id"], $_SESSION["role"], "create class", "admin created class with teacher id: " . $teacher, "teacher_users/teacher_info");
+
+            $_SESSION["cc-success"] = "Successfully made class with class name: " . $class . ", and lead by teacher with id: " . $teacher;
 
             header("Location: " . $_SERVER["PHP_SELF"]);
             exit();
@@ -59,10 +85,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <button type="submit" name="teacher-register">Submit</button>
             </form>
+
+            <?php if (!empty($_SESSION["tr-success"])): ?>
+                <div><?php echo htmlspecialchars($_SESSION["tr-success"]) ?></div>
+                <?php unset($_SESSION["tr-success"]); 
+            endif; ?>
         </div>
 
         <div class="teacher-lookup">
 
+        </div>
+
+        <!-- This might be moved into a different file but for now it will be in here -->
+        <div class="create-class">
+            <form method="POST">
+                <label for="class-name">Class Name</label>
+                <input name="class-name" type="text" required>
+
+                <label for="teacher">Teacher</label>
+                <select name="teacher" required>
+                    <option value="">Select The Teacher</option>
+                    <?php
+                    while($row = $result->fetch_assoc()) {
+                        echo "<option value='" . $row["teacher_id"] . "'>" . $row["full_name"] . "</option>";
+                    }
+                    ?>
+                </select>
+
+                <button type="submit" name="create-class">Submit</button>
+            </form>
+
+            <?php if (!empty($_SESSION["cc-success"])): ?>
+                <div><?php echo htmlspecialchars($_SESSION["cc-success"]) ?></div>
+                <?php unset($_SESSION["cc-success"]); 
+            endif; ?>
         </div>
     </body>
 </html>
