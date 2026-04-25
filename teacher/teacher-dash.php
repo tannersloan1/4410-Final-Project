@@ -57,8 +57,8 @@ if (isset($_GET["export_csv"])) {
 // STAT CARDS — real aggregated numbers
 // Total unique students across all this teacher's classes
 $r = $conn->query(
-    "SELECT COUNT(DISTINCT student_id) AS total
-     FROM CLASSES WHERE teacher_id = $teacher_id"
+    "SELECT COUNT(DISTINCT ce.student_id) AS total
+     FROM CLASS_ENROLLMENTS ce JOIN CLASSES c ON ce.class_id = c.class_id WHERE teacher_id = $teacher_id"
 );
 $total_students = $r->fetch_assoc()["total"] ?? 0;
 
