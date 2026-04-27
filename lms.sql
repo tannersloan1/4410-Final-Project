@@ -70,15 +70,16 @@ CREATE TABLE LOGS (
 
 CREATE TABLE CLASSES (
 	class_id INT AUTO_INCREMENT PRIMARY KEY,
-    teacher_id INT,
-    class_name VARCHAR(255),
+    teacher_id INT NOT NULL,
+    class_name VARCHAR(255) NOT NULL,
+    student_limit INT NOT NULL,
     FOREIGN KEY (teacher_id) REFERENCES TEACHER_INFO(teacher_id)
 );
 
 CREATE TABLE CLASS_ENROLLMENTS (
 	enrollment_id INT AUTO_INCREMENT PRIMARY KEY,
-    class_id INT,
-    student_id INT,
+    class_id INT NOT NULL,
+    student_id INT NOT NULL,
     FOREIGN KEY (class_id) REFERENCES CLASSES(class_id) ON DELETE CASCADE,
     FOREIGN KEY (student_id) REFERENCES STUDENT_INFO(student_id) ON DELETE CASCADE,
     UNIQUE (class_id, student_id)
@@ -88,6 +89,11 @@ CREATE TABLE QUIZZES (
 	quiz_id INT AUTO_INCREMENT PRIMARY KEY,
     teacher_id INT,
     class_id INT,
+    title VARCHAR(255) NOT NULL DEFAULT 'Untitled Quiz',
+    description TEXT,
+    time_limit INT DEFAULT NULL,
+    is_published BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (teacher_id) REFERENCES TEACHER_INFO(teacher_id),
     FOREIGN KEY (class_id) REFERENCES CLASSES(class_id)
 );
@@ -98,6 +104,46 @@ CREATE TABLE QUESTIONS (
     question_text TEXT NOT NULL,
     question_type ENUM("multiple_choice", "fill_in_the_blank", "free_response") NOT NULL,
     answer TEXT NOT NULL,
+    points INT DEFAULT 1,
     auto_graded BOOLEAN DEFAULT TRUE,
     FOREIGN KEY (quiz_id) REFERENCES QUIZZES(quiz_id) ON DELETE CASCADE
+);
+
+-- ANSWER_CHOICES  QUESTIONS.answer stores the correct choice_id after insert.
+CREATE TABLE ANSWER_CHOICES (
+    choice_id    INT AUTO_INCREMENT PRIMARY KEY,
+    question_id  INT          NOT NULL,
+    choice_text  TEXT         NOT NULL,
+    is_correct   BOOLEAN      DEFAULT FALSE,
+    choice_order TINYINT      DEFAULT 1,        -- 1-4, controls display order
+    FOREIGN KEY (question_id) REFERENCES QUESTIONS(question_id) ON DELETE CASCADE
+);
+
+-- STUDENT_SUBMISSIONS
+CREATE TABLE STUDENT_SUBMISSIONS (
+    submission_id  INT AUTO_INCREMENT PRIMARY KEY,
+    quiz_id        INT       NOT NULL,
+    student_id     INT       NOT NULL,
+    started_at     TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    submitted_at   TIMESTAMP NULL,            
+    score          INT       DEFAULT 0,       
+    total_points   INT       DEFAULT 0,       
+    percentage     DECIMAL(5,2) DEFAULT 0.00,  
+    FOREIGN KEY (quiz_id)    REFERENCES QUIZZES(quiz_id)           ON DELETE CASCADE,
+    FOREIGN KEY (student_id) REFERENCES STUDENT_INFO(student_id)   ON DELETE CASCADE,
+    UNIQUE KEY one_attempt (quiz_id, student_id)
+);
+
+-- STUDENT_ANSWERS
+CREATE TABLE STUDENT_ANSWERS (
+    answer_id       INT AUTO_INCREMENT PRIMARY KEY,
+    submission_id   INT  NOT NULL,
+    question_id     INT  NOT NULL,
+    chosen_choice_id INT  DEFAULT NULL,
+    answer_text     TEXT DEFAULT NULL,
+    is_correct      BOOLEAN   DEFAULT FALSE,
+    points_earned   INT       DEFAULT 0,
+    FOREIGN KEY (submission_id)    REFERENCES STUDENT_SUBMISSIONS(submission_id) ON DELETE CASCADE,
+    FOREIGN KEY (question_id)      REFERENCES QUESTIONS(question_id)             ON DELETE CASCADE,
+    FOREIGN KEY (chosen_choice_id) REFERENCES ANSWER_CHOICES(choice_id)         ON DELETE SET NULL
 );
