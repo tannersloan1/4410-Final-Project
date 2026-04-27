@@ -222,27 +222,7 @@ body {
 
 /* Teacher Section */
 
-.teacher-register {
-    max-width: var(--max-width-content);
-    margin: 0 auto;
-    background: var(--bg-surface);
-    border-radius: var(--radius-lg);
-    padding: 20px;
-    box-shadow: var(--shadow-sm);
-    border: 1px solid var(--border-subtle);
-}
-
-.teacher-lookup {
-    max-width: var(--max-width-content);
-    margin: 0 auto;
-    background: var(--bg-surface);
-    border-radius: var(--radius-lg);
-    padding: 20px;
-    box-shadow: var(--shadow-sm);
-    border: 1px solid var(--border-subtle);
-}
-
-.create-class {
+.item {
     max-width: var(--max-width-content);
     margin: 0 auto;
     background: var(--bg-surface);
