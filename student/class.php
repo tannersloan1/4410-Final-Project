@@ -338,7 +338,7 @@ $my_avg = $avg_stmt->get_result()->fetch_assoc()["avg_score"] ?? null;
                         </div>
                     </div>
                     <div class="quiz-card-action">
-                        <a href="take-quiz.php?quiz_id=<?= $q["quiz_id"] ?>" class="btn-take">Start Quiz →</a>
+                        <a href="takequiz.php?quiz_id=<?= $q["quiz_id"] ?>" class="btn-take">Start Quiz →</a>
                     </div>
                 </div>
             <?php endforeach; ?>
