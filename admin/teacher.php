@@ -45,14 +45,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     else if (isset($_POST["create-class"])) {
         $class = $_POST["class-name"];
         $teacher = $_POST["teacher"];
+        $limit = $_POST["limit"];
 
-        $sql = $conn->prepare("INSERT INTO CLASSES (teacher_id, class_name) VALUES (?,?)");
-        $sql->bind_param("is", $teacher, $class);
+        $sql = $conn->prepare("INSERT INTO CLASSES (teacher_id, class_name, student_limit) VALUES (?,?,?)");
+        $sql->bind_param("isi", $teacher, $class, $limit);
 
         if ($sql->execute()) {
-            logActivity($conn, $_SESSION["user_id"], $_SESSION["role"], "create class", "admin created class with teacher id: " . $teacher, "teacher_users/teacher_info");
+            logActivity($conn, $_SESSION["user_id"], $_SESSION["role"], "create class", 
+            "admin created class " . $class . " with teacher id: " . $teacher . " with a max student count of " . $limit . ".", "teacher_users/teacher_info");
 
-            $_SESSION["cc-success"] = "Successfully made class with class name: " . $class . ", and lead by teacher with id: " . $teacher;
+            $_SESSION["cc-success"] = "Successfully made class with class name: " . $class . ", lead by teacher with id: " . $teacher . ", and has a max student count of " . $limit;
 
             header("Location: " . $_SERVER["PHP_SELF"]);
             exit();
@@ -75,7 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <body>
         <?php include "../includes/header.php"; ?>
 
-        <div class="teacher-register">
+        <div class="item">
             <form method="POST">
                 <label for="register-email">Email</label>
                 <input name="register-email" type="email" required>
@@ -92,12 +94,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             endif; ?>
         </div>
 
-        <div class="teacher-lookup">
+        <div class="item">
 
         </div>
 
         <!-- This might be moved into a different file but for now it will be in here -->
-        <div class="create-class">
+        <div class="item">
             <form method="POST">
                 <label for="class-name">Class Name</label>
                 <input name="class-name" type="text" required>
@@ -111,6 +113,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     }
                     ?>
                 </select>
+
+                <label for="limit">Set Student Count Limit</label>
+                <input type="number" name="limit" required>
 
                 <button type="submit" name="create-class">Submit</button>
             </form>
