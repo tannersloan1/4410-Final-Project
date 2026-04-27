@@ -14,7 +14,7 @@ $student_name = $_SESSION["full_name"] ?? "Student";
 // Validate the class_id from the URL
 $class_id = isset($_GET["id"]) ? (int)$_GET["id"] : 0;
 if ($class_id <= 0) {
-    header("Location: dashboard.php");
+    header("Location: index.php");
     exit();
 }
 
@@ -30,7 +30,7 @@ $class_row = $enroll_check->get_result()->fetch_assoc();
 
 if (!$class_row) {
     // Not enrolled (or class doesn't exist) = kick them out
-    header("Location: dashboard.php");
+    header("Location: index.php");
     exit();
 }
 
