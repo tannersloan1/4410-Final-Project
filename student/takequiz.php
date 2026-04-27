@@ -22,9 +22,10 @@ $quiz_id     = intval($_GET["quiz_id"]);
 $quiz_r = $conn->query(
     "SELECT q.* FROM QUIZZES q
      JOIN CLASSES c ON q.class_id = c.class_id
+     JOIN CLASS_ENROLLMENTS ce ON c.class_id = ce.class_id
      WHERE q.quiz_id    = $quiz_id
        AND q.is_published = 1
-       AND c.student_id = $student_id
+       AND ce.student_id = $student_id
      LIMIT 1"
 );
 if ($quiz_r->num_rows === 0) {
