@@ -22,11 +22,12 @@ $quizzes_result = $conn->query(
             ss.submitted_at
      FROM QUIZZES q
      JOIN CLASSES c          ON q.class_id    = c.class_id
+     JOIN CLASS_ENROLLMENTS ce ON c.class_id = ce.class_id
      JOIN QUESTIONS qu        ON q.quiz_id    = qu.quiz_id
      LEFT JOIN STUDENT_SUBMISSIONS ss
                ON ss.quiz_id    = q.quiz_id
                AND ss.student_id = $student_id
-     WHERE c.student_id  = $student_id
+     WHERE ce.student_id  = $student_id
        AND q.is_published = 1
      GROUP BY q.quiz_id
      ORDER BY ss.submitted_at IS NOT NULL ASC, q.created_at DESC"
@@ -47,9 +48,10 @@ $avg_r = $conn->query(
      FROM STUDENT_SUBMISSIONS ss
      JOIN QUIZZES q ON ss.quiz_id = q.quiz_id
      JOIN CLASSES c ON q.class_id = c.class_id
+     JOIN CLASS_ENROLLMENTS ce ON c.class_id = ce.class_id
      WHERE ss.student_id = $student_id
        AND ss.submitted_at IS NOT NULL
-       AND c.student_id   = $student_id"
+       AND ce.student_id   = $student_id"
 );
 $my_avg = $avg_r->fetch_assoc()["avg_score"] ?? null;
 ?>
