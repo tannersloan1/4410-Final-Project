@@ -12,10 +12,11 @@ if ($_SESSION["role"] != "admin") {
 $sql = $conn->prepare("SELECT email, full_name FROM ADMIN_INFO WHERE admin_id=?");
 $sql->bind_param("i", $_SESSION["user_id"]);
 if ($sql->execute()) {
-    $admin = $sql->get_result()->fetch_assoc();
+    $adminName = $sql->get_result()->fetch_assoc();
+    $name = "NO NAME IN DATABASE.";
 }
 else {
-    $name = "NO NAME IN DATABASE.";
+    // Error here
 }
 ?>
 
@@ -30,8 +31,8 @@ else {
     <body id="dash-body">
         <?php include "../includes/header.php"; ?>
 
-        <?php if ($admin): ?>
-            <h1 class="dash-hello">Hello, <?php echo htmlspecialchars($admin["full_name"]); ?>!</h1>
+        <?php if ($adminName && $adminName["full_name"] !== NULL): ?>
+            <h1 class="dash-hello">Hello, <?php echo htmlspecialchars($adminName["full_name"]); ?>!</h1>
         <?php else: ?>
             <h1 class="dash-hello">Hello, <?php echo htmlspecialchars($name); ?>!</h1>
         <?php endif; ?>
