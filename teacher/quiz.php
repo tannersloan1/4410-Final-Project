@@ -15,8 +15,7 @@ $edit_quiz  = null; // holds quiz data when editing
 
 // Fetch this teacher's classes for the "Assign to class" dropdown
 $classes_result = $conn->query(
-    "SELECT DISTINCT class_id, class_name FROM CLASSES
-     WHERE teacher_id = $teacher_id ORDER BY class_name"
+    "SELECT class_id, class_name FROM CLASSES WHERE teacher_id = $teacher_id ORDER BY class_name"
 );
 
 
@@ -449,13 +448,13 @@ $quizzes_result = $conn->query(
                                 <a href="results.php?quiz_id=<?= $quiz["quiz_id"] ?>" class="btn-xs btn-results">Results</a>
                                 <?php if ($quiz["is_published"]): ?>
                                     <a href="quiz.php?toggle_publish=<?= $quiz["quiz_id"] ?>" class="btn-xs btn-unpublish"
-                                       onclick="return confirm('Unpublish this quiz? Students won\'t be able to take it.')">Unpublish</a>
+                                        onclick="return confirm('Unpublish this quiz? Students won\'t be able to take it.')">Unpublish</a>
                                 <?php else: ?>
                                     <a href="quiz.php?toggle_publish=<?= $quiz["quiz_id"] ?>" class="btn-xs btn-publish"
-                                       onclick="return confirm('Publish this quiz? Students will be able to take it.')">Publish</a>
+                                        onclick="return confirm('Publish this quiz? Students will be able to take it.')">Publish</a>
                                 <?php endif; ?>
                                 <a href="quiz.php?delete=<?= $quiz["quiz_id"] ?>" class="btn-xs btn-delete"
-                                   onclick="return confirm('Delete \'<?= addslashes($quiz["title"]) ?>\'? This cannot be undone and will also delete all questions and student submissions.')">Delete</a>
+                                    onclick="return confirm('Delete \'<?= addslashes($quiz["title"]) ?>\'? This cannot be undone and will also delete all questions and student submissions.')">Delete</a>
                             </div>
                         </td>
                     </tr>
