@@ -379,7 +379,7 @@ function toggleForgot() {
 }
 
 <?php if (!empty($_SESSION["change-error"]) || !empty($_SESSION["success"])): ?>
-// Auto-open the drawer if there's a change-password response
+// Auto open the drawer if there's a change password response
 document.getElementById("cp-drawer").classList.add("open");
 document.querySelector(".btn-forgot").textContent = "Never mind, go back";
 <?php endif; ?>
