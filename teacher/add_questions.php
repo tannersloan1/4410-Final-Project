@@ -82,7 +82,7 @@ if (isset($_POST["add_question"])) {
         }
 
     } else {
-        // fill_in_the_blank or free_response
+        // fill in the blank or free response
         $answer = $conn->real_escape_string(trim($_POST["answer_text"] ?? ""));
         if ($question_type === "fill_in_the_blank" && $answer === "") {
             $feedback = ["type" => "error", "msg" => "Please enter the correct answer."];
@@ -509,9 +509,7 @@ $labels          = ["A", "B", "C", "D"];
         </div>
     <?php endif; ?>
 
-    <!-- ============================================================
-         ADD QUESTION FORM
-         ============================================================ -->
+    <!--ADD QUESTION FORM-->
     <div class="form-card">
         <h2>➕ Add a Question</h2>
 
@@ -520,8 +518,8 @@ $labels          = ["A", "B", "C", "D"];
             <!-- Question text -->
             <label for="question_text">Question</label>
             <textarea id="question_text" name="question_text"
-                      placeholder="e.g. Which of the following is NOT a valid IP address class?"
-                      required></textarea>
+                    placeholder="e.g. Which of the following is NOT a valid IP address class?"
+                    required></textarea>
 
             <!-- Type + points row -->
             <div class="form-row">
@@ -640,8 +638,8 @@ $labels          = ["A", "B", "C", "D"];
                     </div>
                     <div class="q-actions">
                         <a href="add_questions.php?quiz_id=<?= $quiz_id ?>&delete_q=<?= $q["question_id"] ?>"
-                           class="btn-del"
-                           onclick="return confirm('Delete this question? This cannot be undone.')">Delete</a>
+                        class="btn-del"
+                        onclick="return confirm('Delete this question? This cannot be undone.')">Delete</a>
                     </div>
                 </div>
             <?php endforeach; ?>
@@ -666,8 +664,8 @@ $labels          = ["A", "B", "C", "D"];
             <a href="quiz.php" class="btn-back">← Back to Quizzes</a>
             <?php if ($question_count > 0 && !$quiz["is_published"]): ?>
                 <a href="quiz.php?toggle_publish=<?= $quiz_id ?>"
-                   class="btn-done"
-                   onclick="return confirm('Publish this quiz now? Students will be able to see and take it.')">
+                class="btn-done"
+                onclick="return confirm('Publish this quiz now? Students will be able to see and take it.')">
                     Publish Quiz
                 </a>
             <?php endif; ?>
@@ -700,7 +698,7 @@ tabs.forEach(tab => {
         typeInput.value = type;
         answerInput.value = "";
 
-        // Clear fill in and free-response helper inputs
+        // Clear fill in and free response helper inputs
         const fitb = document.getElementById("answer_fitb");
         const fr   = document.getElementById("answer_fr");
         if (fitb) fitb.value = "";
@@ -708,7 +706,7 @@ tabs.forEach(tab => {
     });
 });
 
-//Keep answer_text in sync for MC
+//Keep answer text in sync for MC
 //Highlight choice row when radio is selected
 document.querySelectorAll('.choice-row input[type="radio"]').forEach(radio => {
     radio.addEventListener("change", () => {
