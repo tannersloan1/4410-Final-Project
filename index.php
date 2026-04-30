@@ -273,7 +273,7 @@ if ($isLoggedIn) {
     <h1>Quizzes, grades, and feedback <br><span class="blue">all in one spot.</span></h1>
     <p>
         A simple platform for teachers to build quizzes and for students
-        to take them. 
+        to take them.
     </p>
     <div class="hero-btns">
         <a href="/lms/register.php" class="btn-big blue">Get started</a>
