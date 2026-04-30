@@ -67,7 +67,7 @@ $initials     = substr($initials, 0, 2);
         body { font-family: "Nunito", "Segoe UI", sans-serif; background: #0f172a; color: #f1f5f9; margin: 0; }
 
         .info-page {
-            max-width: 900px;
+            max-width: 1000px;
             margin: 40px auto;
             padding: 0 24px 80px;
         }
@@ -133,14 +133,18 @@ $initials     = substr($initials, 0, 2);
         }
 
         .current-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 14px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
             margin-bottom: 28px;
-            padding: 18px;
+            padding: 20px;
             background: #0f172a;
             border-radius: 10px;
             border: 1px solid #1e293b;
+        }
+        .current-item {
+            flex: 1;
+            min-width: 200px;
         }
         .current-item span {
             display: block;
@@ -301,7 +305,7 @@ $initials     = substr($initials, 0, 2);
 </main>
 
 <footer style="border-top:1px solid #1e293b; text-align:center; padding:24px; color:#334155; font-size:0.82rem; font-family:'Nunito',sans-serif;">
-    &copy; 2025 LMS System
+    &copy; 2026 LMS System
 </footer>
 
 </body>
