@@ -23,8 +23,9 @@ $sub_r = $conn->query(
             q.quiz_id, c.class_name
      FROM STUDENT_SUBMISSIONS ss
      JOIN QUIZZES q ON ss.quiz_id = q.quiz_id
-     LEFT JOIN CLASSES c ON q.class_id = c.class_id
-     WHERE ss.submission_id = $sub_id AND ss.student_id = $student_id"
+     LEFT JOIN CLASSES c ON c.class_id = q.class_id
+     WHERE ss.submission_id = $sub_id AND ss.student_id = $student_id
+     LIMIT 1"
 );
 
 if ($sub_r->num_rows === 0) {
@@ -375,7 +376,7 @@ if ($sub["started_at"] && $sub["submitted_at"]) {
 </main>
 
 <footer>
-    <p>&copy; 2025 LMS System. All rights reserved.</p>
+    <p>&copy; 2026 LMS System. All rights reserved.</p>
 </footer>
 </body>
 </html>
