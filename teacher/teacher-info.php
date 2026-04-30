@@ -137,14 +137,18 @@ $initials     = substr($initials, 0, 2);
 
         /* current values */
         .current-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 14px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
             margin-bottom: 28px;
-            padding: 18px;
+            padding: 20px;
             background: #0f172a;
             border-radius: 10px;
             border: 1px solid #1e293b;
+        }
+        .current-item {
+            flex: 1;
+            min-width: 200px;
         }
         .current-item span {
             display: block;
