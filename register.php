@@ -1,5 +1,5 @@
 <?php
-// Only students can self-register; teachers are created by admins
+// Only students can self register. teachers are created by admins
 session_start();
 
 include "includes/db.php";
