@@ -222,7 +222,7 @@ body {
 
 /* Teacher Section */
 
-.item {
+.teacher-register {
     max-width: var(--max-width-content);
     margin: 0 auto;
     background: var(--bg-surface);
@@ -230,4 +230,373 @@ body {
     padding: 20px;
     box-shadow: var(--shadow-sm);
     border: 1px solid var(--border-subtle);
+}
+
+.teacher-lookup {
+    max-width: var(--max-width-content);
+    margin: 0 auto;
+    background: var(--bg-surface);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-subtle);
+}
+
+.create-class {
+    max-width: var(--max-width-content);
+    margin: 0 auto;
+    background: var(--bg-surface);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-subtle);
+}
+
+.page-shell {
+    max-width: 900px;
+    margin: 70px auto;
+    padding: 0 20px;
+}
+
+.panel {
+    max-width: 600px;
+    margin: 0 auto;
+    background: #1f2a3a;
+    border: 1px solid #334155;
+    border-radius: 18px;
+    padding: 32px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
+
+.panel h1 {
+    margin-bottom: 10px;
+    text-align: center;
+    color: white;
+}
+
+.panel p {
+    text-align: center;
+    color: #cbd5e1;
+    margin-bottom: 24px;
+}
+
+form label {
+    display: block;
+    margin-top: 16px;
+    margin-bottom: 8px;
+    color: white;
+    font-weight: 600;
+}
+
+form input,
+form textarea {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #475569;
+    background: #0f172a;
+    color: white;
+    font-size: 15px;
+}
+
+form input:focus,
+form textarea:focus {
+    outline: none;
+    border-color: #38bdf8;
+}
+
+form button {
+    width: 100%;
+    margin-top: 22px;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: #2563eb;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+form button:hover {
+    background: #1d4ed8;
+}
+
+.teacher-page {
+    max-width: 1180px;
+    margin: 35px auto;
+    padding: 0 20px;
+}
+
+.teacher-hero h1 {
+    font-size: 2rem;
+    color: #fff;
+    margin-bottom: 8px;
+}
+
+.teacher-hero p {
+    color: #cbd5e1;
+    margin-bottom: 22px;
+}
+
+.action-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+    margin-bottom: 24px;
+}
+
+.action-card {
+    background: #1f2a3a;
+    border: 1px solid #334155;
+    border-radius: 14px;
+    padding: 26px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+}
+
+.action-card .icon {
+    font-size: 2.5rem;
+    margin-bottom: 12px;
+}
+
+.action-card h2 {
+    margin-bottom: 10px;
+}
+
+.action-card p {
+    color: #e2e8f0;
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+
+.action-card.blue h2 {
+    color: #3b82f6;
+}
+
+.action-card.green h2 {
+    color: #22c55e;
+}
+
+.action-card.purple h2 {
+    color: #a855f7;
+}
+
+.action-btn,
+.small-btn {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    background: #2563eb;
+    color: white;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+.green .action-btn {
+    background: #16a34a;
+}
+
+.purple .action-btn {
+    background: #7c3aed;
+}
+
+.dashboard-panel {
+    background: #1f2a3a;
+    border: 1px solid #334155;
+    border-radius: 14px;
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.panel-header h2,
+.dashboard-panel h2,
+.dashboard-panel h3 {
+    color: white;
+}
+
+.small-btn {
+    width: auto;
+    padding: 10px 16px;
+    font-size: 0.9rem;
+}
+
+.assessment-form {
+    display: grid;
+    gap: 12px;
+}
+
+.assessment-form label {
+    color: white;
+    font-weight: bold;
+}
+
+.assessment-form input,
+.assessment-form select,
+.assessment-form textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #475569;
+    border-radius: 8px;
+    background: #0f172a;
+    color: white;
+}
+
+.assessment-form button {
+    background: #2563eb;
+    color: white;
+    border: none;
+    padding: 13px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.assessment-form button:hover,
+.action-btn:hover,
+.small-btn:hover {
+    filter: brightness(1.15);
+}
+
+.success-msg {
+    margin-top: 15px;
+    color: #22c55e;
+    font-weight: bold;
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+.assessment-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #111827;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.assessment-table th,
+.assessment-table td {
+    padding: 13px 14px;
+    border-bottom: 1px solid #334155;
+    color: white;
+    text-align: left;
+}
+
+.assessment-table th {
+    background: #273449;
+}
+
+.assessment-table tr:hover {
+    background: #1e293b;
+}
+
+.mini {
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 2px;
+}
+
+.blue-btn {
+    background: #2563eb;
+}
+
+.yellow-btn {
+    background: #f59e0b;
+}
+
+.green-btn {
+    background: #16a34a;
+}
+
+.red-btn {
+    background: #dc2626;
+}
+
+.analytics-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 24px;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin: 18px 0;
+}
+
+.stat-box {
+    background: #111827;
+    border-radius: 10px;
+    padding: 18px;
+    color: white;
+    font-size: 1.4rem;
+}
+
+.stat-box span {
+    display: block;
+    font-size: 0.85rem;
+    color: #cbd5e1;
+    margin-top: 8px;
+}
+
+.stat-box strong {
+    display: block;
+    font-size: 1.7rem;
+    margin-top: 4px;
+}
+
+.muted {
+    color: #cbd5e1;
+    margin-bottom: 16px;
+}
+
+.report-btn {
+    display: block;
+    width: 100%;
+    margin-bottom: 12px;
+    padding: 13px;
+    border: none;
+    border-radius: 8px;
+    background: #7c3aed;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.report-btn:hover {
+    filter: brightness(1.15);
+}
+
+footer {
+    text-align: center;
+    color: white;
+    margin: 40px 0 20px;
+}
+
+@media (max-width: 900px) {
+    .action-grid,
+    .analytics-grid,
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .panel-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
 }
