@@ -22,14 +22,14 @@ if (isset($_GET["export_csv"])) {
                 ROUND(AVG(ss.percentage), 1)        AS avg_score,
                 ROUND(MAX(ss.percentage), 1)        AS top_score,
                 ROUND(MIN(ss.percentage), 1)        AS low_score
-         FROM QUIZZES q
-         LEFT JOIN CLASSES c              ON q.class_id   = c.class_id
-         LEFT JOIN QUESTIONS qu           ON q.quiz_id    = qu.quiz_id
-         LEFT JOIN STUDENT_SUBMISSIONS ss ON q.quiz_id    = ss.quiz_id
-                                         AND ss.submitted_at IS NOT NULL
-         WHERE q.teacher_id = $teacher_id
-         GROUP BY q.quiz_id
-         ORDER BY q.created_at DESC"
+        FROM QUIZZES q
+        LEFT JOIN CLASSES c              ON q.class_id   = c.class_id
+        LEFT JOIN QUESTIONS qu           ON q.quiz_id    = qu.quiz_id
+        LEFT JOIN STUDENT_SUBMISSIONS ss ON q.quiz_id    = ss.quiz_id
+                                        AND ss.submitted_at IS NOT NULL
+        WHERE q.teacher_id = $teacher_id
+        GROUP BY q.quiz_id
+        ORDER BY q.created_at DESC"
     );
 
     header("Content-Type: text/csv");
@@ -57,8 +57,7 @@ if (isset($_GET["export_csv"])) {
 // STAT CARDS — real aggregated numbers
 // Total unique students across all this teacher's classes
 $r = $conn->query(
-    "SELECT COUNT(DISTINCT ce.student_id) AS total
-     FROM CLASS_ENROLLMENTS ce JOIN CLASSES c ON ce.class_id = c.class_id WHERE teacher_id = $teacher_id"
+    "SELECT COUNT(DISTINCT ce.student_id) AS total FROM CLASS_ENROLMENTS ce JOIN CLASSES c ON ce.class_id=c.class_id WHERE c.teacher_id=$teacher_id"
 );
 $total_students = $r->fetch_assoc()["total"] ?? 0;
 
@@ -349,6 +348,12 @@ $recent_result = $conn->query(
             <h2>Manage Quizzes</h2>
             <p>Create, edit, and publish quizzes for your classes.</p>
             <a href="quiz.php" class="action-btn btn-blue">Go to Quizzes</a>
+        </div>
+        <div class="action-card" style="border-color:#334155">
+            <div class="icon">🏫</div>
+            <h2 style="color:#f59e0b">Manage Classes</h2>
+            <p>Create classes and enroll students so they can take your quizzes.</p>
+            <a href="manage-classes.php" class="action-btn" style="background:#b45309">Manage Classes</a>
         </div>
         <div class="action-card green">
             <div class="icon">📊</div>
