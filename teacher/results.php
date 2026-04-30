@@ -84,7 +84,7 @@ $qinfo_r = $conn->query(
 $qinfo = $qinfo_r->fetch_assoc();
 
 
-// Per-question difficulty
+// Per question difficulty
 $difficulty_r = $conn->query(
     "SELECT qu.question_id, qu.question_text, qu.question_type, qu.points,
             COUNT(sa.answer_id)              AS attempts,
@@ -101,7 +101,7 @@ while ($row = $difficulty_r->fetch_assoc()) {
     $difficulty_rows[] = $row;
 }
 
-// Per-student submission list
+// Per student submission list
 $students_r = $conn->query(
     "SELECT ss.submission_id, ss.score, ss.total_points, ss.percentage,
             ss.submitted_at, ss.started_at,
@@ -457,8 +457,8 @@ $has_submissions = count($student_rows) > 0;
                 </p>
                 <?php if (!$quiz["is_published"]): ?>
                     <a href="quiz.php?toggle_publish=<?= $quiz_id ?>"
-                       style="display:inline-block; margin-top:14px; padding:10px 20px; background:#16a34a; color:#fff; border-radius:8px; font-weight:700; text-decoration:none;"
-                       onclick="return confirm('Publish this quiz?')">Publish Quiz</a>
+                        style="display:inline-block; margin-top:14px; padding:10px 20px; background:#16a34a; color:#fff; border-radius:8px; font-weight:700; text-decoration:none;"
+                        onclick="return confirm('Publish this quiz?')">Publish Quiz</a>
                 <?php endif; ?>
             </div>
         </div>
