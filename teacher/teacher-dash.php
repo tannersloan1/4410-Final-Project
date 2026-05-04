@@ -57,7 +57,7 @@ if (isset($_GET["export_csv"])) {
 // STAT CARDS — real aggregated numbers
 // Total unique students across all this teacher's classes
 $r = $conn->query(
-    "SELECT COUNT(DISTINCT ce.student_id) AS total FROM CLASS_ENROLMENTS ce JOIN CLASSES c ON ce.class_id=c.class_id WHERE c.teacher_id=$teacher_id"
+    "SELECT COUNT(DISTINCT ce.student_id) AS total FROM CLASS_ENROLLMENTS ce JOIN CLASSES c ON ce.class_id=c.class_id WHERE c.teacher_id=$teacher_id"
 );
 $total_students = $r->fetch_assoc()["total"] ?? 0;
 
@@ -107,11 +107,12 @@ $quizzes_result = $conn->query(
 
 // RECENT RESULTS — last 5 submissions across all teacher's quizzes
 $recent_result = $conn->query(
-    "SELECT ss.percentage, ss.score, ss.total_points, ss.submitted_at,
+    "SELECT ss.percentage, ss.score, ss.total_points, ss.submitted_at, c.class_name,
             si.full_name AS student_name,
             q.title      AS quiz_title
      FROM STUDENT_SUBMISSIONS ss
      JOIN QUIZZES q        ON ss.quiz_id    = q.quiz_id
+     JOIN CLASSES c        ON c.class_id  = q.class_id
      JOIN STUDENT_INFO si  ON ss.student_id = si.student_id
      WHERE q.teacher_id = $teacher_id AND ss.submitted_at IS NOT NULL
      ORDER BY ss.submitted_at DESC
@@ -349,12 +350,6 @@ $recent_result = $conn->query(
             <p>Create, edit, and publish quizzes for your classes.</p>
             <a href="quiz.php" class="action-btn btn-blue">Go to Quizzes</a>
         </div>
-        <div class="action-card" style="border-color:#334155">
-            <div class="icon">🏫</div>
-            <h2 style="color:#f59e0b">Manage Classes</h2>
-            <p>Create classes and enroll students so they can take your quizzes.</p>
-            <a href="manage-classes.php" class="action-btn" style="background:#b45309">Manage Classes</a>
-        </div>
         <div class="action-card green">
             <div class="icon">📊</div>
             <h2>Analyze Progress</h2>
@@ -481,6 +476,7 @@ $recent_result = $conn->query(
             <table class="recent-table">
                 <thead>
                     <tr>
+                        <th>Class</th>
                         <th>Student</th>
                         <th>Quiz</th>
                         <th>Score</th>
@@ -493,6 +489,7 @@ $recent_result = $conn->query(
                     $cls = $pct >= 80 ? "score-high" : ($pct >= 60 ? "score-mid" : "score-low");
                 ?>
                     <tr>
+                        <td><?= htmlspecialchars($sub["class_name"]) ?></td>
                         <td><?= htmlspecialchars($sub["student_name"]) ?></td>
                         <td><?= htmlspecialchars($sub["quiz_title"]) ?></td>
                         <td>
