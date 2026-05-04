@@ -625,7 +625,7 @@ $has_submissions = count($student_rows) > 0;
                     <tr>
                         <td style="color:#64748b"><?= $di + 1 ?></td>
                         <td style="max-width:180px">
-                            <?= htmlspecialchars(mb_strimwidth($dq["question_text"], 0, 60, "…")) ?>
+                            <?= htmlspecialchars(mb_strimwidth($dq["question_text"], 0, 15, "…")) ?>
                             <br>
                             <small style="color:#475569"><?= $dq["points"] ?> pt<?= $dq["points"] != 1 ? "s" : "" ?></small>
                         </td>
