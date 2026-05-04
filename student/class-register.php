@@ -9,10 +9,12 @@ if ($_SESSION["role"] != "student") {
     die("Restricted access"); 
 }
 
-$sql = $conn->prepare("SELECT c.class_id, c.class_name, t.full_name, c.student_limit, COUNT(ce.student_id) AS enrolled_students
+$sql = $conn->prepare("SELECT c.class_id, c.class_name, t.full_name, c.student_limit, COUNT(ce.student_id) AS enrolled_students,
+EXISTS (SELECT 1 FROM CLASS_ENROLLMENTS ce WHERE ce.class_id = c.class_id and ce.student_id = ?) AS isEnrolled
 FROM CLASSES c JOIN TEACHER_INFO t ON c.teacher_id = t.teacher_id
 LEFT JOIN CLASS_ENROLLMENTS ce ON c.class_id = ce.class_id
 GROUP BY c.class_id, c.class_name, t.full_name, c.student_limit");
+$sql->bind_param("i", $_SESSION["user_id"]);
 $sql->execute();
 $result = $sql->get_result();
 
@@ -67,8 +69,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <form method="POST">
                 <?php
                     while ($row = $result->fetch_assoc()) {
+                        $isEnrolled = (bool)$row["isEnrolled"];
                         echo "<div>";
-                            if ($row["enrolled_students"] < $row["student_limit"]) {
+                            if ($isEnrolled) {
+                                echo "✅";
+                            }
+                            else if ($row["enrolled_students"] < $row["student_limit"]) {
                                 echo "<input type='radio' name='classID' value='" . $row["class_id"] . "'>";
                             }
                             else {
