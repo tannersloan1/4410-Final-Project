@@ -232,11 +232,11 @@ $logs_r = $conn->query("SELECT * FROM LOGS ORDER BY created_at DESC LIMIT 8");
             <p>Add new teacher accounts and view all existing teachers.</p>
             <span class="card-btn" style="background:#2563eb">Manage Teachers</span>
         </a>
-        <a href="student.php" class="action-card">
+        <a href="class.php" class="action-card">
             <div class="icon">🎓</div>
-            <h2 style="color:#22c55e">Students</h2>
-            <p>View all student accounts and manage their status.</p>
-            <span class="card-btn" style="background:#16a34a">Manage Students</span>
+            <h2 style="color:#22c55e">Classes</h2>
+            <p>Add new classes and view all existing classes.</p>
+            <span class="card-btn" style="background:#16a34a">Manage Classes</span>
         </a>
         <a href="analytics.php" class="action-card">
             <div class="icon">📊</div>
