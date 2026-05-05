@@ -63,6 +63,36 @@ if (isset($_GET["export_csv"])) {
 }
 
 
+// SAVE manual grade
+if (isset($_POST["save_grade"])) {
+    $answer_id     = intval($_POST["answer_id"]);
+    $submission_id = intval($_POST["submission_id_grade"]);
+    $points_earned = max(0, intval($_POST["points_earned"]));
+
+    $check = $conn->query(
+        "SELECT sa.answer_id, qu.points AS max_points
+         FROM STUDENT_ANSWERS sa
+         JOIN QUESTIONS qu ON sa.question_id = qu.question_id
+         JOIN STUDENT_SUBMISSIONS ss ON sa.submission_id = ss.submission_id
+         JOIN QUIZZES q ON ss.quiz_id = q.quiz_id
+         WHERE sa.answer_id = $answer_id AND q.teacher_id = $teacher_id AND qu.question_type = 'free_response'"
+    );
+    if ($check->num_rows > 0) {
+        $max = $check->fetch_assoc()["max_points"];
+        $pts = min($points_earned, $max);
+        $conn->query("UPDATE STUDENT_ANSWERS SET points_earned=$pts, is_correct=".($pts>0?1:0)." WHERE answer_id=$answer_id");
+        $score_r   = $conn->query("SELECT SUM(points_earned) AS total FROM STUDENT_ANSWERS WHERE submission_id=$submission_id");
+        $new_score = $score_r->fetch_assoc()["total"] ?? 0;
+        $tp_r      = $conn->query("SELECT total_points FROM STUDENT_SUBMISSIONS WHERE submission_id=$submission_id");
+        $total_pts = $tp_r->fetch_assoc()["total_points"];
+        $new_pct   = $total_pts > 0 ? round(($new_score / $total_pts) * 100, 2) : 0;
+        $conn->query("UPDATE STUDENT_SUBMISSIONS SET score=$new_score, percentage=$new_pct WHERE submission_id=$submission_id");
+        logActivity($conn, $teacher_id, "teacher", "UPDATE", "Manually graded answer $answer_id: $pts pts", "STUDENT_ANSWERS");
+    }
+    header("Location: results.php?quiz_id=$quiz_id&submission_id=$submission_id");
+    exit();
+}
+
 // Summary stats for this quiz
 $stats_r = $conn->query(
     "SELECT COUNT(*)                        AS total_submissions,
@@ -135,7 +165,7 @@ if (isset($_GET["submission_id"]) && is_numeric($_GET["submission_id"])) {
         $detail_submission = $sub_check->fetch_assoc();
 
         $answers_r = $conn->query(
-            "SELECT sa.is_correct, sa.points_earned, sa.answer_text,
+            "SELECT sa.answer_id, sa.is_correct, sa.points_earned, sa.answer_text,
                     qu.question_text, qu.question_type, qu.points AS max_points, qu.answer AS correct_answer,
                     ac_chosen.choice_text AS chosen_text,
                     ac_correct.choice_text AS correct_choice_text
@@ -518,15 +548,35 @@ $has_submissions = count($student_rows) > 0;
                         <?php endif; ?>
 
                     <?php else: ?>
-                        <span class="answer-given">
-                            Response: <?= $ans["answer_text"] ? htmlspecialchars($ans["answer_text"]) : "<em>No response</em>" ?>
-                        </span>
-                        <span class="badge-manual">⚠️ Manual grading required</span>
+                        <div style="width:100%">
+                            <div style="color:#94a3b8;font-size:0.85rem;margin-bottom:8px;">
+                                <strong>Response:</strong>
+                                <?= $ans["answer_text"] ? htmlspecialchars($ans["answer_text"]) : "<em style='color:#475569'>No response given</em>" ?>
+                            </div>
+                            <form method="POST" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px;">
+                                <input type="hidden" name="answer_id" value="<?= $ans["answer_id"] ?>">
+                                <input type="hidden" name="submission_id_grade" value="<?= $detail_submission["submission_id"] ?>">
+                                <input type="hidden" name="save_grade" value="1">
+                                <label style="font-size:0.82rem;color:#94a3b8;white-space:nowrap;">Points earned (max <?= $ans["max_points"] ?>):</label>
+                                <input type="number" name="points_earned" min="0" max="<?= $ans["max_points"] ?>" value="<?= $ans["points_earned"] ?>"
+                                    style="width:70px;padding:6px 10px;background:#0f172a;border:1px solid #475569;border-radius:6px;color:#fff;font-size:0.9rem;text-align:center;">
+                                <button type="submit" style="padding:6px 14px;background:#d97706;color:#fff;border:none;border-radius:6px;font-size:0.82rem;font-weight:700;cursor:pointer;">Save Grade</button>
+                                <?php if ($ans["points_earned"] > 0): ?>
+                                    <span style="color:#86efac;font-size:0.82rem;font-weight:700;">✓ <?= $ans["points_earned"] ?>/<?= $ans["max_points"] ?> pts saved</span>
+                                <?php else: ?>
+                                    <span style="color:#f59e0b;font-size:0.82rem;">⚠️ Not yet graded</span>
+                                <?php endif; ?>
+                            </form>
+                        </div>
                     <?php endif; ?>
 
                     <span class="answer-pts">
                         <?php if ($is_manual): ?>
-                            <span style="color:#64748b">—/<?= $ans["max_points"] ?> pts</span>
+                            <?php if ($ans["points_earned"] > 0): ?>
+                                <span class="badge-correct">+<?= $ans["points_earned"] ?> pts</span>
+                            <?php else: ?>
+                                <span style="color:#f59e0b;font-size:0.78rem;font-weight:700;">Pending</span>
+                            <?php endif; ?>
                         <?php elseif ($ans["is_correct"]): ?>
                             <span class="badge-correct">✓ +<?= $ans["points_earned"] ?> pts</span>
                         <?php else: ?>
