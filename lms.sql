@@ -27,8 +27,7 @@ CREATE TABLE STUDENT_USERS (
     email VARCHAR(100) NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    FOREIGN KEY (student_id) REFERENCES STUDENT_INFO(student_id) ON DELETE CASCADE,
-    FOREIGN KEY (email) REFERENCES STUDENT_INFO(email)
+    FOREIGN KEY (student_id) REFERENCES STUDENT_INFO(student_id) ON DELETE CASCADE
 );
 
 CREATE TABLE TEACHER_USERS (
@@ -36,8 +35,7 @@ CREATE TABLE TEACHER_USERS (
     email VARCHAR(100) NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    FOREIGN KEY (teacher_id) REFERENCES TEACHER_INFO(teacher_id) ON DELETE CASCADE,
-    FOREIGN KEY (email) REFERENCES TEACHER_INFO(email)
+    FOREIGN KEY (teacher_id) REFERENCES TEACHER_INFO(teacher_id) ON DELETE CASCADE
 );
 
 CREATE TABLE ADMIN_USERS (
@@ -45,8 +43,7 @@ CREATE TABLE ADMIN_USERS (
     email VARCHAR(100) NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    FOREIGN KEY (admin_id) REFERENCES ADMIN_INFO(admin_id) ON DELETE CASCADE,
-    FOREIGN KEY (email) REFERENCES ADMIN_INFO(email)
+    FOREIGN KEY (admin_id) REFERENCES ADMIN_INFO(admin_id) ON DELETE CASCADE
 );
 
 INSERT INTO ADMIN_INFO (admin_id, email, full_name)
@@ -73,20 +70,20 @@ CREATE TABLE CLASSES (
     teacher_id INT NOT NULL,
     class_name VARCHAR(255) NOT NULL,
     student_limit INT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (teacher_id) REFERENCES TEACHER_INFO(teacher_id) ON DELETE CASCADE,
     UNIQUE KEY unique_teacher_class (teacher_id, class_name)
 );
+-- removed created_at (make sure fine)
 
 CREATE TABLE CLASS_ENROLLMENTS (
 	enrollment_id INT AUTO_INCREMENT PRIMARY KEY,
     class_id INT NOT NULL,
     student_id INT NOT NULL,
-    enrolled_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (class_id) REFERENCES CLASSES(class_id) ON DELETE CASCADE,
     FOREIGN KEY (student_id) REFERENCES STUDENT_INFO(student_id) ON DELETE CASCADE,
     UNIQUE KEY one_enrollment (class_id, student_id)
 );
+-- removed enrolled_at (make sure fine)
 
 CREATE TABLE QUIZZES (
 	quiz_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -108,7 +105,6 @@ CREATE TABLE QUESTIONS (
     question_type ENUM("multiple_choice", "fill_in_the_blank", "free_response") NOT NULL,
     answer TEXT NOT NULL,
     points INT DEFAULT 1,
-    explanation TEXT DEFAULT NULL,
     auto_graded BOOLEAN DEFAULT TRUE,
     FOREIGN KEY (quiz_id) REFERENCES QUIZZES(quiz_id) ON DELETE CASCADE
 );
