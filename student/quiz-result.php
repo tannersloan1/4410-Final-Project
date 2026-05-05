@@ -38,6 +38,7 @@ $sub = $sub_r->fetch_assoc();
 $answers_r = $conn->query(
     "SELECT sa.is_correct, sa.points_earned, sa.answer_text,
             qu.question_text, qu.question_type, qu.points AS max_points, qu.answer AS correct_answer,
+            qu.explanation,
             ac_chosen.choice_text  AS chosen_text,
             ac_correct.choice_text AS correct_choice_text
      FROM STUDENT_ANSWERS sa
@@ -364,6 +365,12 @@ if ($sub["started_at"] && $sub["submitted_at"]) {
                 <?php else: ?>
                     <p style="color:#475569; font-size:0.85rem; margin-top:6px; font-style:italic">No response given.</p>
                 <?php endif; ?>
+            <?php endif; ?>
+            <?php if (!empty($a["explanation"])): ?>
+                <div style="margin-top:10px;padding:10px 14px;background:#1e3a5f;border-radius:8px;border-left:3px solid #3b82f6;">
+                    <span style="font-size:0.75rem;color:#64748b;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:4px;">💡 Explanation</span>
+                    <span style="font-size:0.88rem;color:#cbd5e1;line-height:1.6;"><?= htmlspecialchars($a["explanation"]) ?></span>
+                </div>
             <?php endif; ?>
         </div>
     </div>
