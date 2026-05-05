@@ -59,8 +59,9 @@ if (isset($_POST["add_question"])) {
         } else {
             // Insert question — answer field holds the correct choice text for quick grading
             $correct_text = $conn->real_escape_string($choices[$correct_idx]);
-            $sql = "INSERT INTO QUESTIONS (quiz_id, question_text, question_type, answer, points)
-                    VALUES ($quiz_id, '$question_text', 'multiple_choice', '$correct_text', $points)";
+            $explanation  = $conn->real_escape_string(trim($_POST["explanation"] ?? ""));
+            $sql = "INSERT INTO QUESTIONS (quiz_id, question_text, question_type, answer, points, explanation)
+                    VALUES ($quiz_id, '$question_text', 'multiple_choice', '$correct_text', $points, '$explanation')";
             if ($conn->query($sql)) {
                 $question_id = $conn->insert_id;
                 // Insert all choices
@@ -87,8 +88,9 @@ if (isset($_POST["add_question"])) {
         if ($question_type === "fill_in_the_blank" && $answer === "") {
             $feedback = ["type" => "error", "msg" => "Please enter the correct answer."];
         } else {
-            $sql = "INSERT INTO QUESTIONS (quiz_id, question_text, question_type, answer, points)
-                    VALUES ($quiz_id, '$question_text', '$question_type', '$answer', $points)";
+            $explanation = $conn->real_escape_string(trim($_POST["explanation"] ?? ""));
+            $sql = "INSERT INTO QUESTIONS (quiz_id, question_text, question_type, answer, points, explanation)
+                    VALUES ($quiz_id, '$question_text', '$question_type', '$answer', $points, '$explanation')";
             if ($conn->query($sql)) {
                 logActivity($conn, $teacher_id, "teacher", "CREATE", "Added question to quiz $quiz_id", "QUESTIONS");
                 $feedback = ["type" => "success", "msg" => "Question added."];
@@ -583,6 +585,14 @@ $labels          = ["A", "B", "C", "D"];
             <!-- Hidden field that actually gets submitted for answer text -->
             <input type="hidden" name="answer_text" id="answer_text">
 
+            <div style="margin-bottom:14px;">
+                <label style="display:block;color:#e2e8f0;font-weight:600;margin-bottom:6px;font-size:0.9rem;">
+                    Explanation <span style="color:#64748b;font-weight:400">(optional — shown to students after they submit)</span>
+                </label>
+                <textarea name="explanation" id="explanation"
+                    style="width:100%;padding:11px 14px;border:1px solid #475569;border-radius:8px;background:#0f172a;color:#fff;font-size:0.95rem;resize:vertical;min-height:70px;font-family:inherit;box-sizing:border-box;"
+                    placeholder="e.g. The correct answer is B because TCP is connection-oriented..."></textarea>
+            </div>
             <button type="submit" name="add_question" class="btn-primary">Add Question</button>
         </form>
     </div>
