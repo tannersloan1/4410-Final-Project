@@ -43,6 +43,7 @@ $results = $stmt->get_result();
                 <span>Register For Classes</span>
             </div>
         </a>
+
         <?php while ($row = $results->fetch_assoc()): ?>
             <a href="class.php?id=<?= $row["class_id"] ?>" class="card">
                 <div class="card-content">
@@ -50,6 +51,12 @@ $results = $stmt->get_result();
                 </div>
             </a>
         <?php endwhile; ?>
+
+        <a href="download-data.php" target="_blank" class="card">
+            <div class="card-content">
+                <span>Export Class Data</span>
+            </div>
+        </a>
     </div>
 </div>
 
